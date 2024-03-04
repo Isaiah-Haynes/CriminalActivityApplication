@@ -14,7 +14,6 @@ class CrimeDetailFragment : Fragment() {
 
     private var _binding : FragmentCrimeDetailBinding? = null
     private lateinit var crime : Crime
-//    private lateinit var binding : FragmentCrimeDetailBinding
     private val binding
         get() = checkNotNull(_binding){
             "Binding is null. Can you see the view?"
