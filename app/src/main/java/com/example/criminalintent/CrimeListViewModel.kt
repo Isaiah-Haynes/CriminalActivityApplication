@@ -18,9 +18,10 @@ class CrimeListViewModel : ViewModel() {
             crimes += loadCrimes()
         }
         Log.d(TAG, "coroutine has finished")
+        Log.d(TAG, "Total crimes: ${crimes.size}")
     }
 
-    suspend fun loadCrimes() : List<Crime>{
+    fun loadCrimes() : List<Crime>{
         val result = mutableListOf<Crime>()
         for (i in 0 until 100) {
             val crime = Crime(
