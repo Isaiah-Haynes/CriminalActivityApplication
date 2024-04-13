@@ -1,7 +1,6 @@
 package com.example.criminalintent
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -24,14 +23,12 @@ class CrimeListFragment : Fragment() {
     private val crimeListViewModel : CrimeListViewModel by viewModels()
 
     private var _binding : FragmentCrimeListBinding? = null
-//    private lateinit var crime : Crime
     private val binding
         get() = checkNotNull(_binding){
             "Binding is null. Can you see the view?"
         }
 
-//    private var job: Job? = null
-
+    //---------------------------- HOMEWORK FIVE ----------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -54,9 +51,6 @@ class CrimeListFragment : Fragment() {
     ): View? {
         _binding = FragmentCrimeListBinding.inflate(layoutInflater, container, false)
         binding.crimeRecyclerView.layoutManager = LinearLayoutManager(context)
-//        val crimes = crimeListViewModel.crimes
-//        val adapter = CrimeListAdapter(crimes)
-//        binding.crimeRecyclerView.adapter = adapter
         return binding.root
     }
 
@@ -68,7 +62,6 @@ class CrimeListFragment : Fragment() {
                 crimeListViewModel.crimes.collect{ crimes->
                     binding.crimeRecyclerView.adapter = CrimeListAdapter(crimes){crimeID ->
                         findNavController().navigate(
-                            /*R.id.show_crime_detail*/
                         CrimeListFragmentDirections.showCrimeDetail(crimeID))
                     }
                 }
@@ -77,6 +70,7 @@ class CrimeListFragment : Fragment() {
         }
     }
 
+    //---------------------------- HOMEWORK FIVE ----------------------------
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.new_crime -> {

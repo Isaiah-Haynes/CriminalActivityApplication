@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -21,7 +20,6 @@ import java.util.Date
 class CrimeDetailFragment : Fragment() {
 
     private var _binding : FragmentCrimeDetailBinding? = null
-//    private lateinit var crime : Crime
     private val args: CrimeDetailFragmentArgs by navArgs()
     private val crimeDetailViewModel: CrimeDetailViewModel by viewModels{
         CrimeDetailViewModelFactory(args.crimeId)
@@ -56,28 +54,14 @@ class CrimeDetailFragment : Fragment() {
                 }
             }
 
-//            crimeDate.apply {
-//                isEnabled = false
-//            }
-
             crimeSolved.setOnCheckedChangeListener{ _, isChecked ->
                 crimeDetailViewModel.updateCrime { oldCrime ->
                     oldCrime.copy(isSolved = isChecked)
                 }
             }
 
-//            deleteCrime.setOnClickListener {
-//
-//                viewLifecycleOwner.lifecycleScope.launch {
-//                    viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-//                        crimeDetailViewModel.crime.collect{crime ->
-//                            crime?.let { removeCrime(it)}
-//                        }
-//                    }
-//                }
-//            }
         }
-
+//---------------------------- HOMEWORK FIVE ----------------------------
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
                 crimeDetailViewModel.crime.collect{crime ->
@@ -116,10 +100,8 @@ class CrimeDetailFragment : Fragment() {
     }
 
 
-
+    //---------------------------- HOMEWORK FIVE ----------------------------
     private fun removeCrime(crime: Crime){
-//        crimeDetailViewModel.deleteCrime(crime)
-//        findNavController().navigateUp()
         binding.apply {
             crimeDelete.setOnClickListener {
                 crimeDetailViewModel.deleteCrime(crime)

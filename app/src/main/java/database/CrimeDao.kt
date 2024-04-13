@@ -25,6 +25,7 @@ interface CrimeDao {
     @Insert
     suspend fun addCrime(crime: Crime)
 
+    //---------------------------- HOMEWORK FIVE ----------------------------
     @Delete
     fun deleteCrime(crime: Crime)
 }
