@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -64,6 +65,25 @@ class CrimeDetailFragment : Fragment() {
                     oldCrime.copy(isSolved = isChecked)
                 }
             }
+
+//            deleteCrime.setOnClickListener {
+//
+//                viewLifecycleOwner.lifecycleScope.launch {
+//                    viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+//                        crimeDetailViewModel.crime.collect{crime ->
+//                            crime?.let { removeCrime(it)}
+//                        }
+//                    }
+//                }
+//            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                crimeDetailViewModel.crime.collect{crime ->
+                    crime?.let { removeCrime(it) }
+                }
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -94,6 +114,21 @@ class CrimeDetailFragment : Fragment() {
             crimeSolved.isChecked = crime.isSolved
         }
     }
+
+
+
+    private fun removeCrime(crime: Crime){
+//        crimeDetailViewModel.deleteCrime(crime)
+//        findNavController().navigateUp()
+        binding.apply {
+            crimeDelete.setOnClickListener {
+                crimeDetailViewModel.deleteCrime(crime)
+
+                findNavController().navigateUp()
+            }
+        }
+    }
+
 
 
 }

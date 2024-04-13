@@ -28,6 +28,10 @@ class CrimeDetailViewModel(crimeID: UUID) :ViewModel() {
         }
     }
 
+    fun deleteCrime(crime: Crime){
+        crimeRepository.deleteCrime(crime)
+    }
+
     override fun onCleared() {
         super.onCleared()
 

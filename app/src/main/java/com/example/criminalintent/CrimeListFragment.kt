@@ -24,7 +24,7 @@ class CrimeListFragment : Fragment() {
     private val crimeListViewModel : CrimeListViewModel by viewModels()
 
     private var _binding : FragmentCrimeListBinding? = null
-    private lateinit var crime : Crime
+//    private lateinit var crime : Crime
     private val binding
         get() = checkNotNull(_binding){
             "Binding is null. Can you see the view?"
@@ -99,5 +99,6 @@ class CrimeListFragment : Fragment() {
             findNavController().navigate(CrimeListFragmentDirections.showCrimeDetail(newCrime.id))
         }
     }
+
 
 }
