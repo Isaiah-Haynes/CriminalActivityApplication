@@ -35,6 +35,14 @@ class CrimeRepository private constructor(
 
     }
 
+    suspend fun addCrime(crime: Crime){
+        database.crimeDao().addCrime(crime)
+    }
+
+//    suspend fun deleteCrime(crime: Crime){
+//        database.crimeDao().deleteCrime(crime)
+//    }
+
     companion object{
         private var INSTANCE : CrimeRepository? = null
 
