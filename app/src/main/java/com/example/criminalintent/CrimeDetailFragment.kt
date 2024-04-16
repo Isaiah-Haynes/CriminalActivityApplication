@@ -127,7 +127,7 @@ class CrimeDetailFragment : Fragment() {
             getString(R.string.crime_report_suspect, crime.suspect)
         }
 
-        val dateString = DateFormat(DATE_FORMAT, crime.date).toString()
+        val dateString = DateFormat.format(DATE_FORMAT, crime.date).toString()
 
         return getString(
             R.string.crime_report,
