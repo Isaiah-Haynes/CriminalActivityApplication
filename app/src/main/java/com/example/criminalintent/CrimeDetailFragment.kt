@@ -1,10 +1,15 @@
 package com.example.criminalintent
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -33,6 +38,11 @@ class CrimeDetailFragment : Fragment() {
             "Binding is null. Can you see the view?"
         }
 
+    private val selectSuspect =
+        registerForActivityResult(ActivityResultContracts.PickContact()){
+            uri: Uri? ->
+            // TODO handle for result
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -55,6 +65,10 @@ class CrimeDetailFragment : Fragment() {
                 crimeDetailViewModel.updateCrime { oldCrime ->
                     oldCrime.copy(title = text.toString())
                 }
+            }
+
+            crimeSuspect.setOnClickListener {
+                selectSuspect.launch(null)
             }
 
             crimeSolved.setOnCheckedChangeListener{ _, isChecked ->
@@ -99,6 +113,43 @@ class CrimeDetailFragment : Fragment() {
                 findNavController().navigate(CrimeDetailFragmentDirections.selectDate(crime.date))
             }
             crimeSolved.isChecked = crime.isSolved
+
+            crimeReport.setOnClickListener {
+                val reportIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, getCrimeReport(crime))
+                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject))
+                }
+//                startActivity(reportIntent)
+
+                val chooseIntent = Intent.createChooser(
+                    reportIntent,
+                    getString(R.string.send_report)
+                )
+                startActivity(chooseIntent)
+            }
+
+            crimeSuspect.text = crime.suspect.ifEmpty {
+                getString(R.string.crime_suspect_text)
+            }
+
+        }
+    }
+
+    private fun parseContactSelection(contractUri: Uri){
+        val queryFields = arrayOf(ContactsContract.Contacts.DISPLAY_NAME)
+
+        val queryCursor = requireActivity().contentResolver.query(
+            contractUri,queryFields, null, null, null
+        )
+
+        queryCursor?.use{cursor ->
+            if(cursor.moveToFirst()){
+                val suspect = cursor.getString(0)
+                crimeDetailViewModel.updateCrime {oldCrime ->
+                    oldCrime.copy(suspect = suspect)
+                }
+            }
         }
     }
 
