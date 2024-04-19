@@ -42,6 +42,7 @@ class CrimeDetailFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.PickContact()){
             uri: Uri? ->
             // TODO handle for result
+            uri?.let{parseContactSelection(it)}
         }
 
     override fun onDestroyView() {
